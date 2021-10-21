@@ -2,6 +2,7 @@ from discord import Embed
 from discord.ext import commands
 from random import choice
 import json
+import asyncio
 
 
 class SantaCog(commands.Cog):
@@ -48,10 +49,12 @@ class SantaCog(commands.Cog):
         await ctx.message.delete()
         embed = Embed(
             title="Success!",
-            description="You joined the secret santa list!",
+            description=f"{ctx.author.mention}You joined the secret santa list!",
             color=1997100
         )
-        await ctx.channel.send(embed=embed)
+        msg = await ctx.channel.send(embed=embed)
+        asyncio.sleep(3)
+        await msg.delete()
         
     @commands.command(pass_context=True)
     async def leave(self, ctx):
@@ -65,10 +68,12 @@ class SantaCog(commands.Cog):
         await ctx.message.delete()
         embed = Embed(
             title="Success!",
-            description="You left the secret santa list!",
+            description=f"{ctx.author.mention}You left the secret santa list!",
             color=12783382
         )
-        await ctx.channel.send(embed=embed)
+        msg = await ctx.channel.send(embed=embed)
+        asyncio.sleep(3)
+        await msg.delete()
 
 def setup(bot):
     bot.add_cog(SantaCog(bot))

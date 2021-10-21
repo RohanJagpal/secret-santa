@@ -32,6 +32,7 @@ class Santa(Cog):
                         color=12783382
                     )
                     await ctx.channel.send(embed=embed)
+        await ctx.message.delete()
 
     @command()
     async def join(self, ctx):
@@ -39,6 +40,7 @@ class Santa(Cog):
             currentList = json.load(f)
             currentList.append(ctx.author.id)
             f.write(json.dump(currentList))
+        await ctx.message.delete()
         
     @command()
     async def leave(self, ctx):
@@ -46,3 +48,4 @@ class Santa(Cog):
             currentList = json.load(f)
             currentList.remove(ctx.author.id)
             f.write(json.dump(currentList))
+        await ctx.message.delete()

@@ -8,7 +8,7 @@ class Santa(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command()
+    @command
     async def santa(self, ctx):
         with open('users.json', 'w+') as f:
             currentList = json.load(f)
@@ -34,7 +34,7 @@ class Santa(Cog):
                     await ctx.channel.send(embed=embed)
         await ctx.message.delete()
 
-    @command()
+    @command
     async def join(self, ctx):
         with open('users.json', 'w+') as f:
             currentList = json.load(f)
@@ -42,7 +42,7 @@ class Santa(Cog):
             f.write(json.dump(currentList))
         await ctx.message.delete()
         
-    @command()
+    @command
     async def leave(self, ctx):
         with open ('users.json', 'w+') as f:
             currentList = json.load(f)

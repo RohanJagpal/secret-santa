@@ -10,7 +10,7 @@ intents = Intents.default()
 
 bot = commands.Bot(command_prefix="!santa", intents=intents)
 
-bot.add_cog(Santa(bot))
+bot.load_extension('santa')
 
 
 @bot.event

@@ -49,7 +49,7 @@ class SantaCog(commands.Cog):
         await ctx.message.delete()
         embed = Embed(
             title="Success!",
-            description=f"{ctx.author.mention}You joined the secret santa list!",
+            description=f"{ctx.author.mention} You joined the secret santa list!",
             color=1997100,
         )
         msg = await ctx.channel.send(embed=embed)
@@ -68,7 +68,7 @@ class SantaCog(commands.Cog):
         await ctx.message.delete()
         embed = Embed(
             title="Success!",
-            description=f"{ctx.author.mention}You left the secret santa list!",
+            description=f"{ctx.author.mention} You left the secret santa list!",
             color=12783382,
         )
         msg = await ctx.channel.send(embed=embed)

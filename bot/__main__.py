@@ -1,6 +1,10 @@
+from os import environ
 from discord import Intents, Activity, ActivityType, Status, __version__
 from discord.ext import commands
 from santa import Santa
+from dotenv import load_dotenv
+
+load_dotenv()
 
 intents = Intents.default()
 
@@ -19,3 +23,5 @@ async def on_ready():
     )
     await bot.change_presence(status=Status.idle, activity=activity)
     print("Successfully logged in and booted...!")
+
+bot.run(environ.get("TOKEN"))

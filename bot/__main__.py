@@ -1,7 +1,6 @@
 from os import environ
 from discord import Intents, Activity, ActivityType, Status, __version__
 from discord.ext import commands
-from santa import Santa
 from dotenv import load_dotenv
 
 load_dotenv()

@@ -49,3 +49,6 @@ class Santa(Cog):
             currentList.remove(ctx.author.id)
             f.write(json.dump(currentList))
         await ctx.message.delete()
+
+def setup(bot):
+    bot.add_cog(Santa(bot))

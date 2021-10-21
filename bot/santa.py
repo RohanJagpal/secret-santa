@@ -53,7 +53,7 @@ class SantaCog(commands.Cog):
             color=1997100
         )
         msg = await ctx.channel.send(embed=embed)
-        asyncio.sleep(3)
+        await asyncio.sleep(3)
         await msg.delete()
         
     @commands.command(pass_context=True)
@@ -72,7 +72,7 @@ class SantaCog(commands.Cog):
             color=12783382
         )
         msg = await ctx.channel.send(embed=embed)
-        asyncio.sleep(3)
+        await asyncio.sleep(3)
         await msg.delete()
 
 def setup(bot):

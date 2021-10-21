@@ -7,7 +7,7 @@ load_dotenv()
 
 intents = Intents.default()
 
-bot = commands.Bot(command_prefix="!santa", intents=intents)
+bot = commands.Bot(command_prefix="!santa ", intents=intents)
 
 bot.load_extension('santa')
 

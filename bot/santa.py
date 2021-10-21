@@ -1,54 +1,74 @@
 from discord import Embed
-from discord.ext.commands import Cog, command
+from discord.ext import commands
 from random import choice
 import json
 
 
-class Santa(Cog):
+class SantaCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command
+    @commands.command(pass_context=True)
     async def santa(self, ctx):
-        with open('users.json', 'w+') as f:
-            currentList = json.load(f)
-            for user in currentList:
-                chosen = user
-                while chosen == user:
-                    chosen = choice(currentList)
-
-                chosen = self.bot.getUser(chosen)
+        with open('users.json', 'r') as jsonfile:
+            currentList = json.load(jsonfile)["users"]
+        done = []
+        for user in currentList:
+            chosen = user
+            while chosen == user or chosen in done:
+                chosen = choice(currentList)
+            done.append(chosen)
+            chosen = await self.bot.fetch_user(chosen)
+            user = await self.bot.fetch_user(user)
+            embed = Embed(
+                title="Secret Santa",
+                description=f"You have been given {chosen.mention} for secret santa!",
+                color=1997100
+            )
+            try:
+                await user.send(embed=embed)
+            except:
                 embed = Embed(
-                    title="Secret Santa",
-                    description=f"You have been given <@{chosen.id}> for secret santa!",
-                    color=1997100
+                    title="An error occurred!",
+                    description=f"I could not send a message to {user.mention}. Please check that you have DMs turned on.",
+                    color=12783382
                 )
-                try:
-                    await user.send(embed=embed)
-                except:
-                    embed = Embed(
-                        title="An error occurred!",
-                        description=f"I could not send a message to <@{user.id}>. Please check that you have DMs turned on.",
-                        color=12783382
-                    )
-                    await ctx.channel.send(embed=embed)
+                await ctx.channel.send(embed=embed)
         await ctx.message.delete()
 
-    @command
+    @commands.command(pass_context=True)
     async def join(self, ctx):
-        with open('users.json', 'w+') as f:
-            currentList = json.load(f)
-            currentList.append(ctx.author.id)
-            f.write(json.dump(currentList))
+        with open('users.json', 'r+') as jsonfile:
+            currentList = json.load(jsonfile)
+        if ctx.author.id in currentList["users"]:
+            return
+        currentList["users"].append(ctx.author.id)
+        with open('users.json', 'w') as jsonfile:
+            jsonfile.write(json.dumps(currentList))
         await ctx.message.delete()
+        embed = Embed(
+            title="Success!",
+            description="You joined the secret santa list!",
+            color=1997100
+        )
+        await ctx.channel.send(embed=embed)
         
-    @command
+    @commands.command(pass_context=True)
     async def leave(self, ctx):
-        with open ('users.json', 'w+') as f:
-            currentList = json.load(f)
-            currentList.remove(ctx.author.id)
-            f.write(json.dump(currentList))
+        with open ('users.json', 'r') as jsonfile:
+            currentList = json.load(jsonfile)
+        if not ctx.author.id in currentList["users"]:
+            return
+        currentList["users"].remove(ctx.author.id)
+        with open('users.json', 'w') as jsonfile:
+            jsonfile.write(json.dumps(currentList))
         await ctx.message.delete()
+        embed = Embed(
+            title="Success!",
+            description="You left the secret santa list!",
+            color=12783382
+        )
+        await ctx.channel.send(embed=embed)
 
 def setup(bot):
-    bot.add_cog(Santa(bot))
+    bot.add_cog(SantaCog(bot))

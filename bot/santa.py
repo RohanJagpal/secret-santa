@@ -75,6 +75,22 @@ class SantaCog(commands.Cog):
         await asyncio.sleep(3)
         await msg.delete()
 
+    @commands.command
+    async def ls(self, ctx):
+        with open("users.json", "r") as jsonfile:
+            currentList = json.load(jsonfile)["users"]
+        desc = ""
+        for user in currentList:
+            desc += f"{await self.bot.fetch_user(user).mention}\n"
+        embed = Embed(
+            title="Current Users",
+            description=desc,
+            color=1997100
+        )
+        msg = await ctx.channel.send(embed=embed)
+        await asyncio.sleep(6)
+        await msg.delete()
+
 
 def setup(bot):
     bot.add_cog(SantaCog(bot))

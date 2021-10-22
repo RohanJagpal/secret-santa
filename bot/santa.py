@@ -75,8 +75,8 @@ class SantaCog(commands.Cog):
         await asyncio.sleep(3)
         await msg.delete()
 
-    @commands.command
-    async def ls(self, ctx):
+    @commands.command()
+    async def listusers(self, ctx):
         with open("users.json", "r") as jsonfile:
             currentList = json.load(jsonfile)["users"]
         desc = ""

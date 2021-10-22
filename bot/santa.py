@@ -81,7 +81,9 @@ class SantaCog(commands.Cog):
             currentList = json.load(jsonfile)["users"]
         desc = ""
         for user in currentList:
-            desc += f"{await self.bot.fetch_user(user).mention}\n"
+            user = await self.bot.fetch_user(user)
+            mention = user.mention
+            desc += f"{mention}\n"
         embed = Embed(
             title="Current Users",
             description=desc,
